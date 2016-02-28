@@ -1,0 +1,22 @@
+box: ruby:2.3.0
+services:
+    - wercker/mysql
+build:
+    steps:
+        - rvm-use:
+            version: 2.3.0
+        - script:
+            name: Make tmp directory
+            code: mkdir tmp
+        - script:
+            name: Set timezone
+            code: |
+              export TZ="Asia/Tokyo"
+        - bundle-install
+        - rails-database-yml
+        - script:
+            name: setup database
+            code: bundle exec rake db:migrate
+        - script:
+            name: rspec
+            code: bundle exec rake spec
