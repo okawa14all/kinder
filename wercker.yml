@@ -27,3 +27,7 @@ build:
     - script:
         name: rspec
         code: bundle exec rake spec
+  after-steps:
+    - wantedly/pretty-slack-notify:
+        webhook_url: $SLACK_WEBHOOK_URL
+        channel: general
