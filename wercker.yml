@@ -31,3 +31,15 @@ build:
     - wantedly/pretty-slack-notify:
         webhook_url: $SLACK_WEBHOOK_URL
         channel: general
+
+deploy:
+  steps:
+    - heroku-deploy:
+        install-toolbelt: true
+    - script:
+        name: Migrate database
+        code: heroku run bundle exec rake db:migrate --app $HEROKU_APP_NAME
+  after-steps:
+    - wantedly/pretty-slack-notify:
+        webhook_url: $SLACK_WEBHOOK_URL
+        channel: general
